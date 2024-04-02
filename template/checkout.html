@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ea; /* light green background */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #228b22; /* forest green */
+            text-align: center;
+            margin-top: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+        }
+        h2 {
+            color: #228b22; /* forest green */
+            margin-top: 0;
+        }
+        p {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #228b22; /* forest green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3CB371; /* medium sea green */
+        }
+    </style>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form action="/process_order" method="POST">
+        <ul>
+            {% for product in products %}
+            <li id="product_{{ product['ProductID'] }}">
+                <h2>{{ product['Name'] }}</h2>
+                <p>{{ product['Description'] }}</p>
+                <p>Price: ${{ product['Price'] }}</p>
+                <!-- Quantity input field -->
+                <label for="quantity{{ product['ProductID'] }}">Quantity:</label>
+                <input type="number" id="quantity{{ product['ProductID'] }}" name="quantity{{ product['ProductID'] }}" value="1" min="1"><br>
+                <!-- Delete button -->
+                <button type="button" onclick="removeProduct('{{ product['ProductID'] }}')">Remove</button>
+                <!-- Hidden input field to store product ID -->
+                <input type="hidden" name="product_id[]" value="{{ product['ProductID'] }}">
+            </li>
+            {% endfor %}
+        </ul>
+        <!-- Other form fields (name, email, address) -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4" cols="50" required></textarea><br>
+        <button type="submit">Place Order</button>
+    </form>
+
+    <!-- JavaScript function to remove a product from the checkout page -->
+    <script>
+        function removeProduct(productId) {
+            // Confirm before removing the product
+            if (confirm("Are you sure you want to remove this product from the checkout?")) {
+                // Remove the product from the list
+                var productElement = document.getElementById("product_" + productId);
+                productElement.parentNode.removeChild(productElement);
+            }
+        }
+    </script>
+</body>
+</html>
