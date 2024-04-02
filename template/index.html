@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSphere</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ea; /* light green background */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #228b22; /* forest green */
+            text-align: center;
+            margin-top: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        li {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 300px;
+            padding: 20px;
+        }
+        h2 {
+            color: #228b22; /* forest green */
+            margin-top: 0;
+        }
+        p {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #228b22; /* forest green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #3CB371; /* medium sea green */
+        }
+    </style>
+</head>
+<body>
+    <h1>EcoSphere</h1>
+    <form action="/checkout" method="GET">
+        <ul>
+            {% for product in products %}
+            <li>
+                <h2>{{ product['Name'] }}</h2>
+                <p>{{ product['Description'] }}</p>
+                <p>Price: ${{ product['Price'] }}</p>
+                <p>Stock: {{ product['Stock'] }}</p>
+                <p>Eco Certification: {{ product['EcoCertification'] }}</p>
+                <p>Vendor: {{ product['VendorName'] }}</p>  <!-- Include vendor name -->
+                <input type="checkbox" name="product_id" value="{{ product['ProductID'] }}"> Select
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Checkout</button>
+    </form>
+</body>
+</html>
